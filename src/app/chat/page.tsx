@@ -12,6 +12,7 @@ const ChatPage: React.FC = () => {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [peerTyping, setPeerTyping] = useState(true);
 
   const handleSend = () => {

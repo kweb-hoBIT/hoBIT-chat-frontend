@@ -7,7 +7,6 @@ import FileDropZone from "./components/FileDropZone";
 import FilePreview from "./components/FilePreview";
 import { MessageType } from "@/types/chat";
 import { useFileHandler } from "@/hooks/useFileHandler";
-import "./ChatPage.css";
 
 const ChatPage: React.FC = () => {
   const [messages, setMessages] = useState<MessageType[]>([
@@ -17,7 +16,7 @@ const ChatPage: React.FC = () => {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [peerTyping, setPeerTyping] = useState(false);
+  const [peerTyping, setPeerTyping] = useState(true);
   
   const {
     droppedFiles,
@@ -74,7 +73,7 @@ const ChatPage: React.FC = () => {
 
 
   return (
-    <div className="chat-container">
+    <div className="mx-auto flex h-screen max-w-screen-lg flex-col overflow-hidden max-md:rounded-none max-md:shadow-none">
       <FileDropZone onFilesDropped={processFiles}>
           <ChatBox
             messages={messages}

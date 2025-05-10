@@ -26,34 +26,34 @@ const FileChatBox: React.FC<FileChatBoxProps> = ({ message }) => {
     };
 
     return (
-        <div className="chat-message-files">
+        <div className="flex flex-col gap-1">
             {fileUrls && fileUrls.map((url, fileIndex) => {
             const fileName = getFileNameFromUrl(url);
             if (isImageFile(url)) {
                 return (
-                <div key={fileIndex} className="chat-file-item chat-file-image-wrapper">
+                <div key={fileIndex} className="p-0">
                     <a
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="chat-message-file-link"
+                        className="block underline text-red-900 hover:text-red-700 focus:outline-none"
                     >
                         <img
                             src={url}
                             alt={fileName || `첨부 이미지 ${fileIndex + 1}`}
-                            className="chat-message-file-image"
+                            className="block max-w-[300px] max-h-[200px] w-auto h-auto object-contain rounded-md"
                         />
                     </a>
                 </div>
                 );
             } else {
                 return (
-                <div key={fileIndex} className="chat-file-item">
+                <div key={fileIndex} className="py-1">
                     <a
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="chat-message-file-link"
+                        className="block underline text-red-900 hover:text-red-700 break-all focus:outline-none focus:ring-2 focus:ring-red-500 rounded-sm"
                     >
                     📄 {fileName || `첨부 파일 ${fileIndex + 1}`}
                     </a>

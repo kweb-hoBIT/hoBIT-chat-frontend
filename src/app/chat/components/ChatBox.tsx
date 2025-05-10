@@ -20,15 +20,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping, peerTyping]);
 
-  
+  const baseMessageClasses = "py-2.5 px-4 rounded-2xl break-words text-xs max-w-lg sm:text-sm md:text-sm";
+
 
   return (
-    <div className="chat-box">
+    <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-2">
       {messages.map((message, index) => (
         <div
           key={index}
-          className={`chat-message ${
-            message.sender === "user" ? "chat-right" : "chat-left"
+          className={`
+            ${baseMessageClasses}
+            ${
+             message.sender === "user"
+             ? "self-end bg-red-900 text-white" 
+             : "self-start bg-gray-200 text-gray-800" 
           }`}
         >
           {message.text && <span>{message.text}</span>}

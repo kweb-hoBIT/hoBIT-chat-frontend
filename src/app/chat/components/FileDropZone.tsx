@@ -20,9 +20,15 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({
     handleDrop,
   } = useFileDrop({ onFilesDropped });
 
-  const dropZoneClassName = `chat-file-dropzone ${
-    isDragging ? "dragging" : ""
-  }`.trim();
+  const baseDropZoneClasses =
+    "h-full w-full max-w-[800px] mx-auto flex flex-col px-4 transition-colors duration-200 ease-in-out relative";
+
+  const draggingClasses = isDragging ? "border-primary bg-white" : "border-transparent";
+
+  const dropZoneClassName = `${baseDropZoneClasses} ${draggingClasses}`.trim();
+
+  const dropIndicatorClassName =
+    "absolute inset-0 flex items-center justify-center text-primary text-lg font-bold pointer-events-none rounded-md";
 
   return (
     <div
@@ -34,7 +40,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({
     >
       {children}
       {isDragging && (
-        <div className="drop-indicator">
+        <div className={dropIndicatorClassName}>
           여기에 파일을 드롭하세요.
         </div>
       )}

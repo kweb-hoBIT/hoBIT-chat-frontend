@@ -1,4 +1,5 @@
 import React from "react";
+import "./TypingIndicator.css";
 
 interface TypingIndicatorProps {
   position: "left" | "right";
@@ -9,12 +10,12 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = ({
   position,
   sender,
 }) => {
-  const positionClass = position === "left" ? "chat-left" : "chat-right";
-  const senderClass = sender ? `${sender}-typing` : "";
+  const positionClass = position === "left" ? "self-start" : "self-end";
+  const senderClass = sender === "user" ? "user-typing" : "admin-typing";
 
   return (
     <div
-      className={`chat-message ${positionClass} typing-indicator ${senderClass}`}
+      className={`typing-indicator ${positionClass} ${senderClass}`}
     >
       <span className="dot"></span>
       <span className="dot"></span>

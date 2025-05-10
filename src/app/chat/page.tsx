@@ -1,27 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ChatBox from "./components/ChatBox";
 import ChatInput from "./components/ChatInput";
 import "./ChatPage.css";
+import { messagesAtom, sendMessageAtom } from "@/atoms/atoms";
+import { useAtomValue, useSetAtom } from "jotai";
 
 const ChatPage: React.FC = () => {
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([
-    { sender: "admin", text: "안녕하세요! 무엇을 도와드릴까요?" },
-    { sender: "user", text: "안녕하세요! 채팅 테스트 중입니다." },
-  ]);
+  const messages = useAtomValue(messagesAtom);
+  const sendMessage = useSetAtom(sendMessageAtom);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [peerTyping, setPeerTyping] = useState(true);
 
-  const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, { sender: "user", text: input }]);
-      setInput("");
-      setIsTyping(false);
-    }
-  };
+  const handleSend = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (input.trim()) {
+        sendMessage(input);
+        setInput("");
+        setIsTyping(false);
+      }
+    },
+    [input, sendMessage],
+  );
 
   const handleInputChange = (value: string) => {
     setInput(value);
@@ -31,18 +35,14 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="chat-container">
-      <div className="chat-wrapper">
+      <form className="chat-wrapper" onSubmit={handleSend}>
         <ChatBox
           messages={messages}
           isTyping={isTyping}
           peerTyping={peerTyping}
         />
-        <ChatInput
-          input={input}
-          setInput={handleInputChange}
-          handleSend={handleSend}
-        />
-      </div>
+        <ChatInput input={input} setInput={handleInputChange} />
+      </form>
     </div>
   );
 };

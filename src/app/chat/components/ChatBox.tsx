@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import TypingIndicator from "./TypingIndicator";
+import type { Message } from "@/types";
 
 interface ChatBoxProps {
-  messages: { sender: string; text: string }[];
+  messages: Message[];
   isTyping: boolean;
   peerTyping: boolean;
 }
@@ -20,14 +21,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
   return (
     <div className="chat-box">
-      {messages.map((message, index) => (
+      {messages.map(({ messageId, sender, text }) => (
         <div
-          key={index}
+          key={messageId}
           className={`chat-message ${
-            message.sender === "user" ? "chat-right" : "chat-left"
+            sender === "self" ? "chat-right" : "chat-left"
           }`}
         >
-          <span>{message.text}</span>
+          <span>{text}</span>
         </div>
       ))}
       {peerTyping && <TypingIndicator position="left" sender="admin" />}

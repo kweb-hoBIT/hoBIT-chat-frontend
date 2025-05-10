@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import TypingIndicator from "./TypingIndicator";
+import { MessageType } from "@/types/chat";
+import FileChatBox from "./FileChatBox";
 
 interface ChatBoxProps {
-  messages: { sender: string; text: string }[];
+  messages: MessageType[];
   isTyping: boolean;
   peerTyping: boolean;
 }
@@ -16,7 +18,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isTyping, peerTyping]);
+
+  
 
   return (
     <div className="chat-box">
@@ -27,7 +31,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({
             message.sender === "user" ? "chat-right" : "chat-left"
           }`}
         >
-          <span>{message.text}</span>
+          {message.text && <span>{message.text}</span>}
+          {message.fileUrls && message.fileUrls.length > 0 && <FileChatBox message={message} />}
         </div>
       ))}
       {peerTyping && <TypingIndicator position="left" sender="admin" />}

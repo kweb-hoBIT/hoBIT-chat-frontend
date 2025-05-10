@@ -15,17 +15,17 @@
   border-radius: 50%;
   animation: bounce-dot 1.2s infinite ease-in-out;
 }
-.user-typing {
+.self-typing {
   background: var(--primary-color);
 }
-.user-typing .dot {
+.self-typing .dot {
   background-color: white;
 }
 
-.admin-typing {
+.other-typing {
   background-color: var(--gray-color);
 }
-.admin-typing .dot {
+.other-typing .dot {
   background-color: black;
 }
 

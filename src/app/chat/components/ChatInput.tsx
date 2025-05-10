@@ -33,7 +33,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="flex items-center border-t border-gray-200 bg-white p-2.5 gap-2.5"> {/* .chat-input */}
+    <div className="flex items-center border-t border-gray-200 bg-white p-2.5 gap-2.5">
       <button 
         type="button" 
         className="bg-red-900 hover:bg-red-800 text-white border-none cursor-pointer transition-colors duration-200 ease-in-out rounded-full w-10 h-10 flex items-center justify-center p-0 text-2xl focus:outline-none"
@@ -52,6 +52,11 @@ const ChatInput: React.FC<ChatInputProps> = ({
         type="text"
         className="flex-1 border-none rounded-md focus:outline-none bg-transparent text-xs p-2 sm:text-sm sm:p-2.5 md:text-base md:p-3 placeholder-gray-400"
         value={input}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && input.trim()) {
+            handleSend();
+          }
+        }}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type your message..."
       />

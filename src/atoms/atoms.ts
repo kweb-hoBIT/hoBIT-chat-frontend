@@ -1,6 +1,6 @@
 "use client";
 
-import type { Message } from "@/types";
+import { Sender, type Message } from "@/types";
 import { atom } from "jotai";
 import { io } from "socket.io-client";
 import { v4 } from "uuid";
@@ -11,13 +11,15 @@ export const socketAtom = atom<Socket>();
 
 export const messagesAtom = atom<Message[]>([]);
 
-export const sendMessageAtom = atom(null, (get, set, text: string) => {
+export const sendMessageAtom = atom(null, (get, set, { text, fileUrls }: { text: string; fileUrls?: string[] }) => {
   const socket = get(socketAtom);
   if (!socket) return;
+
   const message: Message = {
     messageId: v4(),
-    sender: "self",
+    sender: Sender.Self,
     text,
+    fileUrls: fileUrls || [],
   } satisfies Message;
 
   set(messagesAtom, (prev) => [...prev, message]);

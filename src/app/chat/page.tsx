@@ -3,9 +3,12 @@
 import React, { useCallback, useState } from "react";
 import ChatBox from "./components/ChatBox";
 import ChatInput from "./components/ChatInput";
-
+import { Message } from "@/types";
 import { messagesAtom, sendMessageAtom } from "@/atoms/atoms";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useFileHandler } from "@/hooks/useFileHandler";
+import FileDropZone from "./components/FileDropZone";
+import FilePreview from "./components/FilePreview";
 
 const ChatPage: React.FC = () => {
   const messages = useAtomValue(messagesAtom);
@@ -28,32 +31,26 @@ const ChatPage: React.FC = () => {
     const currentInput = input.trim();
     if (currentInput === '' && droppedFiles.length === 0) return;
 
-    const newMessages: MessageType[] = [];
+    const newMessages: Message[] = [];
 
     // TODO: S3 연결 후 await 추가
     const uploadedFileInfos = getUploadedFileInfos();
 
     if (currentInput && uploadedFileInfos.length > 0) {
       // 1. 텍스트와 파일이 모두 있는 경우
-      newMessages.push({
-        sender: "user",
+      sendMessage({
         text: currentInput,
         fileUrls: uploadedFileInfos.map(fileInfo => fileInfo.url),
       });
     } else if (currentInput) {
       // 2. 텍스트만 있는 경우
-      newMessages.push({ sender: "user", text: currentInput });
+      sendMessage({ text: currentInput });
     } else if (uploadedFileInfos.length > 0) {
       // 3. 파일만 있는 경우
-      newMessages.push({
-        sender: "user",
+      sendMessage({
         text: "",
         fileUrls: uploadedFileInfos.map(fileInfo => fileInfo.url),
       });
-    }
-
-    if (newMessages.length > 0) {
-      setMessages(prevMessages => [...prevMessages, ...newMessages]);
     }
 
     setInput("");

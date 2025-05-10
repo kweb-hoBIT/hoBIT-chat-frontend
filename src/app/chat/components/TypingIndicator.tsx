@@ -1,9 +1,10 @@
 import React from "react";
 import "./TypingIndicator.css";
+import { Sender } from "@/types";
 
 interface TypingIndicatorProps {
   position: "left" | "right";
-  sender?: "user" | "admin";
+  sender?: Sender;
 }
 
 const TypingIndicator: React.FC<TypingIndicatorProps> = ({
@@ -11,7 +12,7 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = ({
   sender,
 }) => {
   const positionClass = position === "left" ? "self-start" : "self-end";
-  const senderClass = sender === "user" ? "user-typing" : "admin-typing";
+  const senderClass = sender === Sender.Self ? "self-typing" : "other-typing";
 
   return (
     <div

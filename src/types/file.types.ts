@@ -1,9 +1,3 @@
-export interface MessageType {
-  sender: string;
-  text: string;
-  fileUrls?: string[];
-}
-
 export interface FilePreviewItem {
   id: string;
   name: string;

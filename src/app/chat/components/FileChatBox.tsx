@@ -1,13 +1,10 @@
-import { MessageType } from '@/types/chat';
 import React from 'react';
 
 interface FileChatBoxProps {
-    message: MessageType;
+    fileUrls: string[];
 }
 
-const FileChatBox: React.FC<FileChatBoxProps> = ({ message }) => {
-    const { fileUrls } = message;
-
+const FileChatBox: React.FC<FileChatBoxProps> = ({ fileUrls }) => {
     const getFileNameFromUrl = (url: string): string => {
         try {
             const parsedUrl = new URL(url);

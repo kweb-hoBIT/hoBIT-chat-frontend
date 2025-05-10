@@ -1,0 +1,91 @@
+/* src/components/FilePreview.css */
+.file-preview-container {
+  display: flex;
+  flex-wrap: wrap; /* 여러 파일일 경우 다음 줄로 넘김 */
+  gap: 10px; /* 아이템 사이 간격 */
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  max-height: 200px; /* 최대 높이 지정 후 스크롤 가능하게 */
+  overflow-y: auto;
+}
+
+.file-preview-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  width: calc(50% - 5px); /* 한 줄에 2개씩 (gap 고려) */
+  box-sizing: border-box;
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .file-preview-item {
+    width: 100%; /* 모바일에서는 한 줄에 하나씩 */
+  }
+}
+
+.file-preview-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 3px;
+  margin-right: 8px;
+}
+
+.file-preview-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #495057;
+}
+
+.file-icon-text {
+  font-size: 0.8em;
+  text-transform: uppercase;
+}
+
+.file-preview-info {
+  flex-grow: 1;
+  overflow: hidden; /* 파일 이름이 길 경우 ... 처리 */
+}
+
+.file-preview-name {
+  display: block;
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+}
+
+/* .file-preview-size {
+  display: block;
+  font-size: 0.8em;
+  color: #777;
+} */
+
+.file-preview-remove-button {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.5em;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 5px;
+  margin-left: 5px;
+}
+
+.file-preview-remove-button:hover {
+  color: #333;
+}

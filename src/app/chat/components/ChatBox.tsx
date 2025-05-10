@@ -21,7 +21,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
   return (
     <div className="chat-box">
-      {messages.map(({messageId, sender, text}) => (
+      {messages.map(({ messageId, sender, text }) => (
         <div
           key={messageId}
           className={`chat-message ${

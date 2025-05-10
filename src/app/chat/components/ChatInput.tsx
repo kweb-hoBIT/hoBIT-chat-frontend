@@ -4,10 +4,7 @@ interface ChatInputProps {
   setInput: (value: string) => void;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({
-  input,
-  setInput,
-}) => {
+const ChatInput: React.FC<ChatInputProps> = ({ input, setInput }) => {
   return (
     <div className="chat-input">
       <input

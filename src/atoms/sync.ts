@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useAtom, useSetAtom } from "jotai";
 import { atoms } from ".";
@@ -13,11 +13,14 @@ export function AtomSynchronizer() {
     if (!socket) return;
 
     socket.on("chat-message", (msg: unknown) => {
-      setMessages((prev) => [...prev, {
-        messageId: v4(),
-        sender: 'other',
-        text: JSON.stringify(msg),
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          messageId: v4(),
+          sender: "other",
+          text: JSON.stringify(msg),
+        },
+      ]);
     });
 
     return () => {
@@ -26,4 +29,4 @@ export function AtomSynchronizer() {
   }, [socket, setMessages]);
 
   return null;
-};
+}

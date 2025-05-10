@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Provider } from "jotai";
 import { sync } from "@/atoms";

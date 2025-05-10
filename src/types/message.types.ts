@@ -1,1 +1,5 @@
-export type Message = { messageId: string; sender: 'self' | 'other'; text: string };
+export type Message = {
+  messageId: string;
+  sender: "self" | "other";
+  text: string;
+};

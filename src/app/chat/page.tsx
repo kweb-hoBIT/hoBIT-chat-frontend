@@ -15,14 +15,17 @@ const ChatPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [peerTyping, setPeerTyping] = useState(true);
 
-  const handleSend = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (input.trim()) {
-      sendMessage(input);
-      setInput("");
-      setIsTyping(false);
-    }
-  }, [input, sendMessage]);
+  const handleSend = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (input.trim()) {
+        sendMessage(input);
+        setInput("");
+        setIsTyping(false);
+      }
+    },
+    [input, sendMessage],
+  );
 
   const handleInputChange = (value: string) => {
     setInput(value);
@@ -32,17 +35,14 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="chat-container">
-        <form className="chat-wrapper" onSubmit={handleSend}>
+      <form className="chat-wrapper" onSubmit={handleSend}>
         <ChatBox
           messages={messages}
           isTyping={isTyping}
           peerTyping={peerTyping}
         />
-        <ChatInput
-          input={input}
-          setInput={handleInputChange}
-          />
-        </form>
+        <ChatInput input={input} setInput={handleInputChange} />
+      </form>
     </div>
   );
 };

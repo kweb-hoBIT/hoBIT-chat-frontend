@@ -36,7 +36,7 @@ const FileChatBox: React.FC<FileChatBoxProps> = ({ message }) => {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block underline text-red-900 hover:text-red-700 focus:outline-none"
+                        className="block underline focus:outline-none"
                     >
                         <img
                             src={url}
@@ -53,7 +53,7 @@ const FileChatBox: React.FC<FileChatBoxProps> = ({ message }) => {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block underline text-red-900 hover:text-red-700 break-all focus:outline-none focus:ring-2 focus:ring-red-500 rounded-sm"
+                        className="block underline break-all focus:outline-none rounded-sm"
                     >
                     📄 {fileName || `첨부 파일 ${fileIndex + 1}`}
                     </a>

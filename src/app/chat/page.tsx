@@ -16,7 +16,7 @@ const ChatPage: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [peerTyping, setPeerTyping] = useState(true);
-  
+
   const {
     droppedFiles,
     filePreviews,
@@ -28,7 +28,7 @@ const ChatPage: React.FC = () => {
 
   const handleSend = async () => {
     const currentInput = input.trim();
-    if (currentInput === '' && droppedFiles.length === 0) return;
+    if (currentInput === "" && droppedFiles.length === 0) return;
 
     // TODO: S3 연결 후 await 추가
     const uploadedFileInfos = getUploadedFileInfos();
@@ -37,7 +37,7 @@ const ChatPage: React.FC = () => {
       // 1. 텍스트와 파일이 모두 있는 경우
       sendMessage({
         text: currentInput,
-        fileUrls: uploadedFileInfos.map(fileInfo => fileInfo.url),
+        fileUrls: uploadedFileInfos.map((fileInfo) => fileInfo.url),
       });
     } else if (currentInput) {
       // 2. 텍스트만 있는 경우
@@ -46,7 +46,7 @@ const ChatPage: React.FC = () => {
       // 3. 파일만 있는 경우
       sendMessage({
         text: "",
-        fileUrls: uploadedFileInfos.map(fileInfo => fileInfo.url),
+        fileUrls: uploadedFileInfos.map((fileInfo) => fileInfo.url),
       });
     }
 
@@ -55,34 +55,32 @@ const ChatPage: React.FC = () => {
     resetFiles();
   };
 
-
   const handleInputChange = (value: string) => {
     setInput(value);
     setIsTyping(value.trim().length > 0);
     // TODO: socket으로 typing 이벤트 전송
   };
 
-
   return (
     <div className="mx-auto flex h-screen max-w-screen-lg flex-col overflow-hidden max-md:rounded-none max-md:shadow-none">
       <FileDropZone onFilesDropped={processFiles}>
-          <ChatBox
-            messages={messages}
-            isTyping={isTyping}
-            peerTyping={peerTyping}
+        <ChatBox
+          messages={messages}
+          isTyping={isTyping}
+          peerTyping={peerTyping}
+        />
+        {filePreviews.length > 0 && (
+          <FilePreview
+            previews={filePreviews}
+            onRemoveFile={handleRemovePreview}
           />
-          {filePreviews.length > 0 && (
-            <FilePreview
-              previews={filePreviews}
-              onRemoveFile={handleRemovePreview}
-            />
-          )}
-          <ChatInput
-            input={input}
-            setInput={handleInputChange}
-            handleSend={handleSend}
-            onFilesSelected={processFiles}
-          />
+        )}
+        <ChatInput
+          input={input}
+          setInput={handleInputChange}
+          handleSend={handleSend}
+          onFilesSelected={processFiles}
+        />
       </FileDropZone>
     </div>
   );

@@ -23,7 +23,9 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({
   const baseDropZoneClasses =
     "h-full w-full max-w-[800px] mx-auto flex flex-col px-4 transition-colors duration-200 ease-in-out relative";
 
-  const draggingClasses = isDragging ? "border-primary bg-white" : "border-transparent";
+  const draggingClasses = isDragging
+    ? "border-primary bg-white"
+    : "border-transparent";
 
   const dropZoneClassName = `${baseDropZoneClasses} ${draggingClasses}`.trim();
 
@@ -40,9 +42,7 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({
     >
       {children}
       {isDragging && (
-        <div className={dropIndicatorClassName}>
-          여기에 파일을 드롭하세요.
-        </div>
+        <div className={dropIndicatorClassName}>여기에 파일을 드롭하세요.</div>
       )}
     </div>
   );

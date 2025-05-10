@@ -15,9 +15,7 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = ({
   const senderClass = sender === Sender.Self ? "self-typing" : "other-typing";
 
   return (
-    <div
-      className={`typing-indicator ${positionClass} ${senderClass}`}
-    >
+    <div className={`typing-indicator ${positionClass} ${senderClass}`}>
       <span className="dot"></span>
       <span className="dot"></span>
       <span className="dot"></span>

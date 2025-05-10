@@ -14,28 +14,47 @@ interface FilePreviewProps {
   onRemoveFile: (fileId: string) => void;
 }
 
-const FilePreview: React.FC<FilePreviewProps> = ({ previews, onRemoveFile }) => {
+const FilePreview: React.FC<FilePreviewProps> = ({
+  previews,
+  onRemoveFile,
+}) => {
   if (!previews || previews.length === 0) {
     return null;
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-2.5 bg-gray-50 border border-b border-gray-200 rounded-t max-h-48 overflow-y-auto">
+    <div className="grid max-h-48 grid-cols-1 gap-2.5 overflow-y-auto rounded-t border border-b border-gray-200 bg-gray-50 p-2.5 sm:grid-cols-2">
       {previews.map((item) => (
-        <div key={item.id} className="flex items-center bg-white border border-gray-300 rounded p-2 relative"> {/* 너비 클래스 제거, Grid가 처리 */}
+        <div
+          key={item.id}
+          className="relative flex items-center rounded border border-gray-300 bg-white p-2"
+        >
+          {" "}
+          {/* 너비 클래스 제거, Grid가 처리 */}
           {item.type.startsWith("image/") && item.url ? (
-            <Image src={item.url} alt={item.name} className="w-10 h-10 object-cover rounded-sm mr-2" />
+            <Image
+              src={item.url}
+              alt={item.name}
+              className="mr-2 h-10 w-10 rounded-sm object-cover"
+            />
           ) : (
-            <div className="w-10 h-10 bg-gray-100 rounded-sm mr-2 flex items-center justify-center font-bold text-gray-700">
-              <span className="text-xs uppercase">{item.name.split('.').pop()?.toUpperCase()}</span>
+            <div className="mr-2 flex h-10 w-10 items-center justify-center rounded-sm bg-gray-100 font-bold text-gray-700">
+              <span className="text-xs uppercase">
+                {item.name.split(".").pop()?.toUpperCase()}
+              </span>
             </div>
           )}
           <div className="flex-grow overflow-hidden">
-            <span className="block text-sm whitespace-nowrap overflow-hidden text-ellipsis text-gray-800" title={item.name}>{item.name}</span>
+            <span
+              className="block overflow-hidden text-sm text-ellipsis whitespace-nowrap text-gray-800"
+              title={item.name}
+            >
+              {item.name}
+            </span>
           </div>
           <button
             type="button"
-            className="bg-transparent border-none text-gray-400 text-2xl leading-none cursor-pointer py-0 px-1 ml-1 hover:text-gray-800"
+            className="ml-1 cursor-pointer border-none bg-transparent px-1 py-0 text-2xl leading-none text-gray-400 hover:text-gray-800"
             onClick={() => onRemoveFile(item.id)}
             aria-label={`Remove ${item.name}`}
           >

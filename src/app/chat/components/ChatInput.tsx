@@ -33,13 +33,15 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="flex items-center border-t border-gray-200 bg-white p-2.5 gap-2.5">
-      <button 
-        type="button" 
-        className="bg-red-900 hover:bg-red-800 text-white border-none cursor-pointer transition-colors duration-200 ease-in-out rounded-full w-10 h-10 flex items-center justify-center p-0 text-2xl focus:outline-none"
+    <div className="flex items-center gap-2.5 border-t border-gray-200 bg-white p-2.5">
+      <button
+        type="button"
+        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-none bg-red-900 p-0 text-2xl text-white transition-colors duration-200 ease-in-out hover:bg-red-800 focus:outline-none"
         onClick={handleFileButtonClick}
         aria-label="Attach files"
-      >+</button>
+      >
+        +
+      </button>
       <input
         type="file"
         multiple
@@ -50,7 +52,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
       />
       <input
         type="text"
-        className="flex-1 border-none rounded-md focus:outline-none bg-transparent text-xs p-2 sm:text-sm sm:p-2.5 md:text-base md:p-3 placeholder-gray-400"
+        className="flex-1 rounded-md border-none bg-transparent p-2 text-xs placeholder-gray-400 focus:outline-none sm:p-2.5 sm:text-sm md:p-3 md:text-base"
         value={input}
         onKeyDown={(e) => {
           if (e.key === "Enter" && input.trim()) {
@@ -62,7 +64,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
       />
       <button
         type="button"
-        className="p-2 bg-red-900 hover:bg-red-800 text-white border-none cursor-pointer transition-colors duration-200 ease-in-out rounded-md text-xs px-3 sm:text-sm sm:px-3 md:text-base md:px-4 focus:outline-none"
+        className="cursor-pointer rounded-md border-none bg-red-900 p-2 px-3 text-xs text-white transition-colors duration-200 ease-in-out hover:bg-red-800 focus:outline-none sm:px-3 sm:text-sm md:px-4 md:text-base"
         onClick={handleSend}
       >
         Send

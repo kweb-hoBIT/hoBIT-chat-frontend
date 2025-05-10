@@ -2,7 +2,7 @@ export interface FilePreviewItem {
   id: string;
   name: string;
   type: string;
-  url: string; 
+  url: string;
   fileObject: File;
 }
 

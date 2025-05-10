@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import TypingIndicator from "./TypingIndicator";
-import { MessageType } from "@/types/chat";
-import FileChatBox from "./FileChatBox";
+import type { Message } from "@/types";
 
 interface ChatBoxProps {
-  messages: MessageType[];
+  messages: Message[];
+
   isTyping: boolean;
   peerTyping: boolean;
 }
@@ -25,21 +25,23 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
   return (
     <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-2">
-      {messages.map((message, index) => (
-        <div
+      {messages.map(({ message, index }) => {
+        const { messageId, sender, text, fileUrls } = message;
+        
+        return (<div
           key={index}
           className={`
             ${baseMessageClasses}
             ${
-             message.sender === "user"
+             sender === "self"
              ? "self-end bg-red-900 text-white" 
              : "self-start bg-gray-200 text-gray-800" 
           }`}
         >
-          {message.text && <span>{message.text}</span>}
-          {message.fileUrls && message.fileUrls.length > 0 && <FileChatBox message={message} />}
-        </div>
-      ))}
+          {text && <span>{text}</span>}
+          {fileUrls && fileUrls.length > 0 && <FileChatBox message={message} />}
+        </div>);
+      })}
       {peerTyping && <TypingIndicator position="left" sender="admin" />}
       {isTyping && <TypingIndicator position="right" sender="user" />}
       <div ref={messagesEndRef} />

@@ -1,18 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ChatBox from "./components/ChatBox";
 import ChatInput from "./components/ChatInput";
-import FileDropZone from "./components/FileDropZone";
-import FilePreview from "./components/FilePreview";
-import { MessageType } from "@/types/chat";
-import { useFileHandler } from "@/hooks/useFileHandler";
+
+import { messagesAtom, sendMessageAtom } from "@/atoms/atoms";
+import { useAtomValue, useSetAtom } from "jotai";
 
 const ChatPage: React.FC = () => {
-  const [messages, setMessages] = useState<MessageType[]>([
-    { sender: "admin", text: "안녕하세요! 무엇을 도와드릴까요?" },
-    { sender: "user", text: "안녕하세요! 채팅 테스트 중입니다." },
-  ]);
+  const messages = useAtomValue(messagesAtom);
+  const sendMessage = useSetAtom(sendMessageAtom);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

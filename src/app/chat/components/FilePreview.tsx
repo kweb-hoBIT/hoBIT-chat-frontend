@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 export interface FilePreviewItem {
@@ -23,7 +24,7 @@ const FilePreview: React.FC<FilePreviewProps> = ({ previews, onRemoveFile }) => 
       {previews.map((item) => (
         <div key={item.id} className="flex items-center bg-white border border-gray-300 rounded p-2 relative"> {/* 너비 클래스 제거, Grid가 처리 */}
           {item.type.startsWith("image/") && item.url ? (
-            <img src={item.url} alt={item.name} className="w-10 h-10 object-cover rounded-sm mr-2" />
+            <Image src={item.url} alt={item.name} className="w-10 h-10 object-cover rounded-sm mr-2" />
           ) : (
             <div className="w-10 h-10 bg-gray-100 rounded-sm mr-2 flex items-center justify-center font-bold text-gray-700">
               <span className="text-xs uppercase">{item.name.split('.').pop()?.toUpperCase()}</span>

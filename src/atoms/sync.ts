@@ -4,6 +4,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { atoms } from ".";
 import { useEffect } from "react";
 import { v4 } from "uuid";
+import { Sender } from "@/types";
 
 export function AtomSynchronizer() {
   const [socket] = useAtom(atoms.socketAtom);
@@ -17,7 +18,7 @@ export function AtomSynchronizer() {
         ...prev,
         {
           messageId: v4(),
-          sender: "other",
+          sender: Sender.Other,
           text: JSON.stringify(msg),
         },
       ]);

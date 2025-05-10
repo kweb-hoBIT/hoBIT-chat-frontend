@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import ChatBox from "./components/ChatBox";
 import ChatInput from "./components/ChatInput";
-import { Message } from "@/types";
 import { messagesAtom, sendMessageAtom } from "@/atoms/atoms";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useFileHandler } from "@/hooks/useFileHandler";
@@ -30,8 +29,6 @@ const ChatPage: React.FC = () => {
   const handleSend = async () => {
     const currentInput = input.trim();
     if (currentInput === '' && droppedFiles.length === 0) return;
-
-    const newMessages: Message[] = [];
 
     // TODO: S3 연결 후 await 추가
     const uploadedFileInfos = getUploadedFileInfos();

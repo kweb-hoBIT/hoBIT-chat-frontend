@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface FileChatBoxProps {
@@ -12,7 +13,7 @@ const FileChatBox: React.FC<FileChatBoxProps> = ({ fileUrls }) => {
             const pathSegments = parsedUrl.pathname.split('/');
             return decodeURIComponent(pathSegments[pathSegments.length - 1]);
         } catch (e) {
-            // 유효한 URL 형식이 아닐 때
+            console.error("Invalid URL:", url, e);
             const lastSlashIndex = url.lastIndexOf('/');
             return url.substring(lastSlashIndex + 1);
         }
@@ -35,7 +36,7 @@ const FileChatBox: React.FC<FileChatBoxProps> = ({ fileUrls }) => {
                         rel="noopener noreferrer"
                         className="block underline focus:outline-none"
                     >
-                        <img
+                        <Image
                             src={url}
                             alt={fileName || `첨부 이미지 ${fileIndex + 1}`}
                             className="block max-w-[300px] max-h-[200px] w-auto h-auto object-contain rounded-md"

@@ -1,21 +1,21 @@
 import React from "react";
+import "./TypingIndicator.css";
+import { Sender } from "@/types";
 
 interface TypingIndicatorProps {
   position: "left" | "right";
-  sender?: "user" | "admin";
+  sender?: Sender;
 }
 
 const TypingIndicator: React.FC<TypingIndicatorProps> = ({
   position,
   sender,
 }) => {
-  const positionClass = position === "left" ? "chat-left" : "chat-right";
-  const senderClass = sender ? `${sender}-typing` : "";
+  const positionClass = position === "left" ? "self-start" : "self-end";
+  const senderClass = sender === Sender.Self ? "self-typing" : "other-typing";
 
   return (
-    <div
-      className={`chat-message ${positionClass} typing-indicator ${senderClass}`}
-    >
+    <div className={`typing-indicator ${positionClass} ${senderClass}`}>
       <span className="dot"></span>
       <span className="dot"></span>
       <span className="dot"></span>

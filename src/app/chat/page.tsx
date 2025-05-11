@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import ChatBox from "./components/ChatBox";
 import ChatInput from "./components/ChatInput";
-import "./ChatPage.css";
 import { messagesAtom, sendMessageAtom } from "@/atoms/atoms";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useFileHandler } from "@/hooks/useFileHandler";
+import FileDropZone from "./components/FileDropZone";
+import FilePreview from "./components/FilePreview";
 
 const ChatPage: React.FC = () => {
   const messages = useAtomValue(messagesAtom);
@@ -15,34 +17,71 @@ const ChatPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [peerTyping, setPeerTyping] = useState(true);
 
-  const handleSend = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (input.trim()) {
-        sendMessage(input);
-        setInput("");
-        setIsTyping(false);
-      }
-    },
-    [input, sendMessage],
-  );
+  const {
+    droppedFiles,
+    filePreviews,
+    processFiles,
+    handleRemovePreview,
+    getUploadedFileInfos,
+    resetFiles,
+  } = useFileHandler();
+
+  const handleSend = async () => {
+    const currentInput = input.trim();
+    if (currentInput === "" && droppedFiles.length === 0) return;
+
+    // TODO: S3 연결 후 await 추가
+    const uploadedFileInfos = getUploadedFileInfos();
+
+    if (currentInput && uploadedFileInfos.length > 0) {
+      // 1. 텍스트와 파일이 모두 있는 경우
+      sendMessage({
+        text: currentInput,
+        fileUrls: uploadedFileInfos.map((fileInfo) => fileInfo.url),
+      });
+    } else if (currentInput) {
+      // 2. 텍스트만 있는 경우
+      sendMessage({ text: currentInput });
+    } else if (uploadedFileInfos.length > 0) {
+      // 3. 파일만 있는 경우
+      sendMessage({
+        text: "",
+        fileUrls: uploadedFileInfos.map((fileInfo) => fileInfo.url),
+      });
+    }
+
+    setInput("");
+    setIsTyping(false);
+    resetFiles();
+  };
 
   const handleInputChange = (value: string) => {
     setInput(value);
     setIsTyping(value.trim().length > 0);
-    // socket으로 typing 이벤트 전송 예정
+    // TODO: socket으로 typing 이벤트 전송
   };
 
   return (
-    <div className="chat-container">
-      <form className="chat-wrapper" onSubmit={handleSend}>
+    <div className="mx-auto flex h-screen max-w-screen-lg flex-col overflow-hidden max-md:rounded-none max-md:shadow-none">
+      <FileDropZone onFilesDropped={processFiles}>
         <ChatBox
           messages={messages}
           isTyping={isTyping}
           peerTyping={peerTyping}
         />
-        <ChatInput input={input} setInput={handleInputChange} />
-      </form>
+        {filePreviews.length > 0 && (
+          <FilePreview
+            previews={filePreviews}
+            onRemoveFile={handleRemovePreview}
+          />
+        )}
+        <ChatInput
+          input={input}
+          setInput={handleInputChange}
+          handleSend={handleSend}
+          onFilesSelected={processFiles}
+        />
+      </FileDropZone>
     </div>
   );
 };

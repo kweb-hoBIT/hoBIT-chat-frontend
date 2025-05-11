@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import TypingIndicator from "./TypingIndicator";
-import type { Message } from "@/types";
+import { Sender, type Message } from "@/types";
+import FileChatBox from "./FileChatBox";
 
 interface ChatBoxProps {
   messages: Message[];
+
   isTyping: boolean;
   peerTyping: boolean;
 }
@@ -17,22 +19,30 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isTyping, peerTyping]);
+
+  const baseMessageClasses =
+    "py-2.5 px-4 rounded-2xl break-words text-xs max-w-lg sm:text-sm md:text-sm";
 
   return (
-    <div className="chat-box">
-      {messages.map(({ messageId, sender, text }) => (
+    <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-4">
+      {messages.map(({ messageId, sender, text, fileUrls }) => (
         <div
           key={messageId}
-          className={`chat-message ${
-            sender === "self" ? "chat-right" : "chat-left"
+          className={` ${baseMessageClasses} ${
+            sender === Sender.Self
+              ? "self-end bg-red-900 text-white"
+              : "self-start bg-gray-200 text-gray-800"
           }`}
         >
-          <span>{text}</span>
+          {text && <span>{text}</span>}
+          {fileUrls && fileUrls.length > 0 && (
+            <FileChatBox fileUrls={fileUrls} />
+          )}
         </div>
       ))}
-      {peerTyping && <TypingIndicator position="left" sender="admin" />}
-      {isTyping && <TypingIndicator position="right" sender="user" />}
+      {peerTyping && <TypingIndicator position="left" sender={Sender.Other} />}
+      {isTyping && <TypingIndicator position="right" sender={Sender.Self} />}
       <div ref={messagesEndRef} />
     </div>
   );

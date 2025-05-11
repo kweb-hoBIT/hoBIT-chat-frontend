@@ -1,33 +1,27 @@
 "use client";
 
-import { useAtom, useSetAtom } from "jotai";
-import { atoms } from ".";
-import { useEffect } from "react";
-import { v4 } from "uuid";
-import { Sender } from "@/types";
+import { useEffect, useMemo } from "react";
+import { useAtom, useStore } from "jotai";
+import { atoms, listener } from ".";
 
 export function AtomSynchronizer() {
+  const store = useStore();
   const [socket] = useAtom(atoms.socketAtom);
-  const setMessages = useSetAtom(atoms.messagesAtom);
+
+  const handleOnMessage = useMemo(
+    () => listener.genMessageHanlder(store),
+    [store],
+  );
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("chat-message", (msg: unknown) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          messageId: v4(),
-          sender: Sender.Other,
-          text: JSON.stringify(msg),
-        },
-      ]);
-    });
+    socket.on("chat-message", handleOnMessage);
 
     return () => {
-      socket.disconnect();
+      socket.off("chat-message", handleOnMessage);
     };
-  }, [socket, setMessages]);
+  }, [socket, handleOnMessage]);
 
   return null;
 }

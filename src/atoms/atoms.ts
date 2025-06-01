@@ -7,7 +7,18 @@ import { v4 } from "uuid";
 
 type Socket = ReturnType<typeof io>;
 
-export const socketAtom = atom<Socket>();
+export const loginAtom = atom<{ email: string; type: string } | null>(null);
+
+export const socketErrorAtom = atom<string | null>(null);
+
+export const socketAtom = atom<Socket | null>((get) => {
+  const login = get(loginAtom);
+  if (!login) return null;
+
+  return io("http://localhost:4000", {
+    auth: { email: login.email, cred: login.type },
+  });
+});
 
 export const messagesAtom = atom<Message[]>([]);
 
@@ -28,12 +39,3 @@ export const sendMessageAtom = atom(
     socket.emit("chat-message", message);
   },
 );
-
-socketAtom.onMount = (setSocket) => {
-  const socket = io("http://localhost:4000");
-  setSocket(socket);
-
-  return () => {
-    socket.disconnect();
-  };
-};

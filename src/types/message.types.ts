@@ -6,3 +6,9 @@ export type Message = {
   text: string;
   fileUrls?: string[];
 };
+
+export type MessageForBE = {
+  senderType: string;
+  senderId: string;
+  content: string;
+};

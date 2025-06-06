@@ -75,6 +75,9 @@ export function Funnel1({ state, formAction, isPending }: FunnelProps) {
         className="rounded-md border-2 border-gray-300 p-2"
         placeholder="인증번호 입력"
       />
+      {state.error && (
+        <p className="text-red-500 dark:text-red-400">{state.error}</p>
+      )}
       <button
         type="submit"
         className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"

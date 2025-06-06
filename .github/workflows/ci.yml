@@ -23,6 +23,8 @@ jobs:
 
       - name: Run build
         run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://example.com/
 
   format-check:
     runs-on: ubuntu-latest

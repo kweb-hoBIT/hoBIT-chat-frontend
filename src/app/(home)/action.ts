@@ -28,8 +28,11 @@ export async function action(
         if (!code) {
           throw "인증번호를 입력해주세요.";
         }
-        const valid = await isValidCode(prev.email, code).catch(() => false);
-        if (!valid) throw "인증번호가 일치하지 않습니다.";
+        const valid = await isValidCode(prev.email, code).catch(() => ({
+          ok: false,
+          message: "요청을 완료하지 못했습니다. 인터넷 연결을 확인하세요.",
+        }));
+        if (!valid.ok) throw valid.message || "인증번호가 유효하지 않습니다.";
         return {
           ...prev,
           step: 2,

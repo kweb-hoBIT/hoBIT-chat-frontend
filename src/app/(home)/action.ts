@@ -13,10 +13,11 @@ export async function action(
         if (!email) throw "이메일을 입력해주세요.";
         if (!email.endsWith("@korea.ac.kr"))
           throw "korea.ac.kr 이메일을 입력해주세요.";
-        const sended = await sendEmail(email)
-          .then(() => true)
-          .catch(() => false);
-        if (!sended) throw "인증번호 전송에 실패했습니다.";
+        const sended = await sendEmail(email).catch(() => ({
+          ok: false,
+          message: "요청을 완료하지 못했습니다. 인터넷 연결을 확인하세요.",
+        }));
+        if (!sended.ok) throw sended.message ?? "인증번호 전송에 실패했습니다.";
         return {
           ...prev,
           step: 1,
